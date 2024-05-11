@@ -12,5 +12,5 @@ This mod lets you easily pickup villagers and place them back at anywhere. You h
 a glass block and a pressure plate to make. Just shift-right-click to a villager while you have one, and you'll take the
 villager to inside the globe. Once you place the globe again, the villager will break the glass and leave.
 
-![Villager Globe](https://raw.githubusercontent.com/efekos/PickupVillagers/main/images/globe.png)
-![Villager Globe with a Librarian inside it](https://raw.githubusercontent.com/efekos/PickupVillagers/main/images/globe_lib.png)
+![Villager Globe](https://raw.githubusercontent.com/efekos/PickupVillagers/master/images/globe.png)
+![Villager Globe with a Librarian inside it](https://raw.githubusercontent.com/efekos/PickupVillagers/master/images/globe_lib.png)
