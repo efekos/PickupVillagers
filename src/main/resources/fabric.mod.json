@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "pickupvillagers",
+  "version": "${version}",
+  "name": "PickupVillagers",
+  "description": "Adds an item called Villager Globe you can use to store villagers.",
+  "authors": ["efekos"],
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/8PPgcmYNf4"
+      }
+    }
+  },
+  "contact": {
+    "repo": "https://github.com/efekos/PickupVillagers",
+    "homepage": "https://github.com/efekos/PickupVillagers",
+    "issues": "https://github.com/efekos/PickupVillagers/issues",
+    "sources": "https://github.com/efekos/PickupVillagers"
+  },
+  "license": "MIT",
+  "icon": "assets/pickupvillagers/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "dev.efekos.pickupvillagers.client.PickupVillagersClient"
+    ],
+    "main": [
+      "dev.efekos.pickupvillagers.PickupVillagers"
+    ]
+  },
+  "mixins": [
+    "pickupvillagers.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
