@@ -52,7 +52,7 @@ public class VillagerBlock extends Block {
 
                 VillagerEntity entity = new VillagerEntity(EntityType.VILLAGER, world);
                 entity.readNbt(nbt.getCompound("villager"));
-                entity.setPos(pos.getX() + .5, pos.getY(), pos.getZ() + .5);
+                entity.setPos(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5);
                 entity.setUuid(UUID.randomUUID());
                 entity.setHeadYaw(0);
                 entity.setPitch(0f);

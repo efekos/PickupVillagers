@@ -9,13 +9,13 @@ import net.minecraft.util.Identifier;
 
 public class PickupVillagersItems {
 
-    public static <T extends Item> T register(String id, T item){
-        Registry.register(Registries.ITEM,new Identifier(PickupVillagers.MOD_ID,id),item);
-        PickupVillagers.LOGGER.info("Registered item pickupvillagers:"+id);
+    public static <T extends Item> T register(String id, T item) {
+        Registry.register(Registries.ITEM, new Identifier(PickupVillagers.MOD_ID, id), item);
+        PickupVillagers.LOGGER.info("Registered item pickupvillagers:" + id);
         return item;
     }
 
-    public static final VillagerItem VILLAGER = register("villager",new VillagerItem(PickupVillagersBlocks.VILLAGER,new Item.Settings().maxCount(1)));
-    public static final Item VILLAGERI = register("villageri",new Item(new Item.Settings()));
+    public static final VillagerItem VILLAGER = register("villager", new VillagerItem(PickupVillagersBlocks.VILLAGER, new Item.Settings().maxCount(1)));
+    public static final Item VILLAGERI = register("villageri", new Item(new Item.Settings()));
 
 }

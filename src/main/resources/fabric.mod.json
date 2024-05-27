@@ -4,7 +4,9 @@
   "version": "${version}",
   "name": "PickupVillagers",
   "description": "Adds an item called Villager Globe you can use to store villagers.",
-  "authors": ["efekos"],
+  "authors": [
+    "efekos"
+  ],
   "custom": {
     "modmenu": {
       "links": {

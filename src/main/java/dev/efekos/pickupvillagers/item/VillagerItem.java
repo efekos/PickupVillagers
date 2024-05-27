@@ -42,7 +42,8 @@ public class VillagerItem extends BlockItem {
         if (!user.isSneaking()) return super.useOnEntity(stack, user, entity, hand);
         if (hand != Hand.MAIN_HAND) return super.useOnEntity(stack, user, entity, hand);
         if (!(entity instanceof VillagerEntity)) return super.useOnEntity(stack, user, entity, hand);
-        if(stack.getOrCreateNbt().contains("villager",NbtElement.COMPOUND_TYPE))return super.useOnEntity(stack, user, entity, hand);
+        if (stack.getOrCreateNbt().contains("villager", NbtElement.COMPOUND_TYPE))
+            return super.useOnEntity(stack, user, entity, hand);
         boolean isClient = user.getWorld().isClient;
 
         if (!isClient) {
@@ -63,38 +64,39 @@ public class VillagerItem extends BlockItem {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
         NbtCompound nbt = stack.getOrCreateNbt();
-        if(!nbt.contains("villager", NbtElement.COMPOUND_TYPE)) {
+        if (!nbt.contains("villager", NbtElement.COMPOUND_TYPE)) {
             tooltip.add(Text.translatable("block.pickupvillagers.villager.none").formatted(Formatting.GRAY));
             return;
         }
         NbtCompound villager = nbt.getCompound("villager");
         NbtCompound VillagerData = villager.getCompound("VillagerData");
         NbtList Recipes = null;
-        if(villager.contains("Offers", NbtElement.COMPOUND_TYPE)) Recipes = villager.getCompound("Offers").getList("Recipes",NbtElement.COMPOUND_TYPE);
+        if (villager.contains("Offers", NbtElement.COMPOUND_TYPE))
+            Recipes = villager.getCompound("Offers").getList("Recipes", NbtElement.COMPOUND_TYPE);
         String profession = VillagerData.getString("profession");
 
         tooltip.add(
-                Text.translatable("entity.minecraft.villager."+(profession.contains(":")?profession.split(":")[1]:profession)).formatted(Formatting.GRAY)
+                Text.translatable("entity.minecraft.villager." + (profession.contains(":") ? profession.split(":")[1] : profession)).formatted(Formatting.GRAY)
                         .append(Text.literal(" - ").formatted(Formatting.GRAY))
-                        .append(Text.translatable("merchant.level."+VillagerData.getInt("level")).formatted(Formatting.GRAY))
+                        .append(Text.translatable("merchant.level." + VillagerData.getInt("level")).formatted(Formatting.GRAY))
         );
-        if(Recipes!=null) {
-            tooltip.add(Text.translatable("block.pickupvillagers.tooltip.trade",Recipes.size()).formatted(Formatting.GRAY));
+        if (Recipes != null) {
+            tooltip.add(Text.translatable("block.pickupvillagers.tooltip.trade", Recipes.size()).formatted(Formatting.GRAY));
 
             ArrayList<Text> list = new ArrayList<>();
             for (NbtElement recipe : Recipes) {
                 NbtCompound compound = (NbtCompound) recipe;
                 String s = compound.getCompound("sell").getString("id");
-                if(s.matches("^(minecraft:)?enchanted_book$")) {
+                if (s.matches("^(minecraft:)?enchanted_book$")) {
                     for (NbtElement element : compound.getCompound("sell").getCompound("tag").getList("StoredEnchantments", NbtElement.COMPOUND_TYPE)) {
                         NbtCompound enchCompound = (NbtCompound) element;
                         String[] split = enchCompound.getString("id").split(":");
-                        list.add(Text.translatable("enchantment."+split[0]+"."+split[1]).formatted(Formatting.DARK_PURPLE));
+                        list.add(Text.translatable("enchantment." + split[0] + "." + split[1]).formatted(Formatting.DARK_PURPLE));
                     }
                 }
             }
 
-            if(!list.isEmpty()){
+            if (!list.isEmpty()) {
                 Text text1 = list.stream().reduce((text, text2) -> text.copy().append(Text.literal(", ")).append(text2)).get();
                 tooltip.add(text1);
             }

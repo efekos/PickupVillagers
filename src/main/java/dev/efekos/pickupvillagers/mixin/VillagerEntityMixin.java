@@ -14,9 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(VillagerEntity.class)
 public class VillagerEntityMixin {
 
-    @Inject(method = "interactMob",at = @At("HEAD"),cancellable = true)
+    @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         ItemStack stack = player.getStackInHand(hand);
-        if(stack.isOf(PickupVillagersItems.VILLAGER)) cir.setReturnValue(ActionResult.PASS);
+        if (stack.isOf(PickupVillagersItems.VILLAGER)) cir.setReturnValue(ActionResult.PASS);
     }
 }
