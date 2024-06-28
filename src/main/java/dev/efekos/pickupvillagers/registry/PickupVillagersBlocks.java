@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 public class PickupVillagersBlocks {
 
     public static <T extends Block> T register(String id, T block) {
-        Registry.register(Registries.BLOCK, new Identifier(PickupVillagers.MOD_ID, id), block);
+        Registry.register(Registries.BLOCK, Identifier.of(PickupVillagers.MOD_ID, id), block);
         PickupVillagers.LOGGER.info("Registered block pickupvillagers:" + id);
 
         return block;

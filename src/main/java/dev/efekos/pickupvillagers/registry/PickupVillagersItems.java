@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 public class PickupVillagersItems {
 
     public static <T extends Item> T register(String id, T item) {
-        Registry.register(Registries.ITEM, new Identifier(PickupVillagers.MOD_ID, id), item);
+        Registry.register(Registries.ITEM, Identifier.of(PickupVillagers.MOD_ID, id), item);
         PickupVillagers.LOGGER.info("Registered item pickupvillagers:" + id);
         return item;
     }
