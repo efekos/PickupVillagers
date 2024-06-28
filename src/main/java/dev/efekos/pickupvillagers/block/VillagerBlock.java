@@ -1,6 +1,7 @@
 package dev.efekos.pickupvillagers.block;
 
 import dev.efekos.pickupvillagers.registry.PickupVillagersBlocks;
+import dev.efekos.pickupvillagers.registry.PickupVillagersComponentTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -44,7 +45,7 @@ public class VillagerBlock extends Block {
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         if (!world.isClient()) {
 
-            NbtCompound nbt = itemStack.getOrCreateNbt();
+            NbtCompound nbt = itemStack.getComponents().get(PickupVillagersComponentTypes.VILLAGER_DATA).copyNbt();
             if (nbt.contains("villager", NbtElement.COMPOUND_TYPE)) {
                 world.breakBlock(pos, false);
                 if (world.getDifficulty() == Difficulty.NORMAL || world.getDifficulty() == Difficulty.HARD)

@@ -1,6 +1,7 @@
 package dev.efekos.pickupvillagers;
 
 import dev.efekos.pickupvillagers.registry.PickupVillagersBlocks;
+import dev.efekos.pickupvillagers.registry.PickupVillagersComponentTypes;
 import dev.efekos.pickupvillagers.registry.PickupVillagersItems;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
@@ -15,5 +16,6 @@ public class PickupVillagers implements ModInitializer {
     public void onInitialize() {
         PickupVillagersBlocks.VILLAGER.getName();
         PickupVillagersItems.VILLAGER.getName();
+        PickupVillagersComponentTypes.run();
     }
 }
