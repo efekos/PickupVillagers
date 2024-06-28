@@ -2,6 +2,7 @@ package dev.efekos.pickupvillagers.item;
 
 import dev.efekos.pickupvillagers.registry.PickupVillagersComponentTypes;
 import net.minecraft.block.Block;
+import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.VillagerEntity;
@@ -38,11 +39,11 @@ public class VillagerItem extends BlockItem {
         boolean isClient = user.getWorld().isClient;
 
         if (!isClient) {
-            NbtCompound stackCompound = stack.get(PickupVillagersComponentTypes.VILLAGER_DATA).copyNbt();
+            NbtCompound stackCompound = new NbtCompound();
             NbtCompound entityCompound = new NbtCompound();
             entity.writeNbt(entityCompound);
             stackCompound.put("villager", entityCompound);
-            NbtComponent.set(PickupVillagersComponentTypes.VILLAGER_DATA,stack,stackCompound);
+            stack.applyChanges(ComponentChanges.builder().add(PickupVillagersComponentTypes.VILLAGER_DATA,NbtComponent.of(stackCompound)).build());
             user.setStackInHand(hand, stack);
             entity.getWorld().playSound(entity, entity.getBlockPos(), SoundEvents.ITEM_ARMOR_EQUIP_LEATHER.value(), SoundCategory.BLOCKS, 1f, 1f);
             entity.discard();
