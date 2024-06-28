@@ -14,7 +14,7 @@ public class PickupVillagersComponentTypes {
     }
 
     public static final ComponentType<NbtComponent> VILLAGER_DATA = register("villager_data",nbtComponentBuilder ->
-        nbtComponentBuilder.codec(NbtComponent.CODEC_WITH_ID).packetCodec(NbtComponent.PACKET_CODEC)
+        nbtComponentBuilder.codec(NbtComponent.CODEC).packetCodec(NbtComponent.PACKET_CODEC)
     );
 
     public static void run(){
