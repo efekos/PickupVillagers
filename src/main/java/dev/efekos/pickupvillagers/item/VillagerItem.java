@@ -1,12 +1,14 @@
 package dev.efekos.pickupvillagers.item;
 
+import dev.efekos.pickupvillagers.registry.PickupVillagersComponentTypes;
 import net.minecraft.block.Block;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -16,8 +18,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,41 +29,33 @@ public class VillagerItem extends BlockItem {
     }
 
     @Override
-    public ItemStack getDefaultStack() {
-        NbtCompound compound = new NbtCompound();
-        compound.put("villager", new NbtCompound());
-        ItemStack stack = new ItemStack(this);
-        stack.setNbt(compound);
-        return stack;
-    }
-
-    @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         if (!user.isSneaking()) return super.useOnEntity(stack, user, entity, hand);
         if (hand != Hand.MAIN_HAND) return super.useOnEntity(stack, user, entity, hand);
         if (!(entity instanceof VillagerEntity)) return super.useOnEntity(stack, user, entity, hand);
-        if (stack.getOrCreateNbt().contains("villager", NbtElement.COMPOUND_TYPE))
+        if (stack.getComponents().contains(PickupVillagersComponentTypes.VILLAGER_DATA))
             return super.useOnEntity(stack, user, entity, hand);
         boolean isClient = user.getWorld().isClient;
 
         if (!isClient) {
-            NbtCompound stackCompound = stack.getOrCreateNbt();
+            NbtCompound stackCompound = stack.get(PickupVillagersComponentTypes.VILLAGER_DATA).copyNbt();
             NbtCompound entityCompound = new NbtCompound();
             entity.writeNbt(entityCompound);
             stackCompound.put("villager", entityCompound);
-            stack.setNbt(stackCompound);
+            NbtComponent.set(PickupVillagersComponentTypes.VILLAGER_DATA,stack,stackCompound);
             user.setStackInHand(hand, stack);
-            entity.getWorld().playSound(entity, entity.getBlockPos(), SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS, 1f, 1f);
+            entity.getWorld().playSound(entity, entity.getBlockPos(), SoundEvents.ITEM_ARMOR_EQUIP_LEATHER.value(), SoundCategory.BLOCKS, 1f, 1f);
             entity.discard();
         }
         return ActionResult.success(isClient);
     }
 
-
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        super.appendTooltip(stack, world, tooltip, context);
-        NbtCompound nbt = stack.getOrCreateNbt();
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
+
+        if(!stack.getComponents().contains(PickupVillagersComponentTypes.VILLAGER_DATA))return;
+        NbtCompound nbt = stack.getComponents().get(PickupVillagersComponentTypes.VILLAGER_DATA).copyNbt();
         if (!nbt.contains("villager", NbtElement.COMPOUND_TYPE)) {
             tooltip.add(Text.translatable("block.pickupvillagers.villager.none").formatted(Formatting.GRAY));
             return;

@@ -1,6 +1,7 @@
 package dev.efekos.pickupvillagers.client;
 
 import dev.efekos.pickupvillagers.registry.PickupVillagersBlocks;
+import dev.efekos.pickupvillagers.registry.PickupVillagersComponentTypes;
 import dev.efekos.pickupvillagers.registry.PickupVillagersItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -32,7 +33,8 @@ public class PickupVillagersClient implements ClientModInitializer {
             renderer.renderItem(PickupVillagersItems.VILLAGERI.getDefaultStack(), mode, light, overlay, matrices, vertexConsumers, null, 1);
             matrices.pop();
 
-            NbtCompound nbt = stack.getOrCreateNbt();
+            if(!stack.getComponents().contains(PickupVillagersComponentTypes.VILLAGER_DATA))return;
+            NbtCompound nbt = stack.getComponents().get(PickupVillagersComponentTypes.VILLAGER_DATA).copyNbt();
             if (!nbt.contains("villager", NbtElement.COMPOUND_TYPE)) return;
             VillagerEntity entity = new VillagerEntity(EntityType.VILLAGER, MinecraftClient.getInstance().world);
             entity.readNbt(nbt.getCompound("villager"));

@@ -44,7 +44,7 @@ public class VillagerBlock extends Block {
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         if (!world.isClient()) {
-
+            if(!itemStack.getComponents().contains(PickupVillagersComponentTypes.VILLAGER_DATA))return;
             NbtCompound nbt = itemStack.getComponents().get(PickupVillagersComponentTypes.VILLAGER_DATA).copyNbt();
             if (nbt.contains("villager", NbtElement.COMPOUND_TYPE)) {
                 world.breakBlock(pos, false);
