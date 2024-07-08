@@ -14,3 +14,4 @@ villager to inside the globe. Once you place the globe again, the villager will 
 
 ![Villager Globe](https://raw.githubusercontent.com/efekos/PickupVillagers/master/images/globe.png)
 ![Villager Globe with a Librarian inside it](https://raw.githubusercontent.com/efekos/PickupVillagers/master/images/globe_lib.png)
+![Villager Globe with a Zombie inside it](https://raw.githubusercontent.com/efekos/PickupVillagers/master/images/globe_zomb.png)
