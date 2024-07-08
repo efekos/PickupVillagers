@@ -1,5 +1,6 @@
 {
   "block.pickupvillagers.tooltip.trade": "%s Öğe",
   "block.pickupvillagers.villager": "Köylü Küresi",
-  "block.pickupvillagers.villager.none": "Boş"
+  "block.pickupvillagers.villager.none": "Boş",
+  "block.pickupvillagers.zombie_villager": "Zombi Köylü Küresi"
 }

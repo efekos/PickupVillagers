@@ -1,5 +1,6 @@
 {
   "block.pickupvillagers.tooltip.trade": "%s Trades",
   "block.pickupvillagers.villager": "Villager Globe",
-  "block.pickupvillagers.villager.none": "Empty"
+  "block.pickupvillagers.villager.none": "Empty",
+  "block.pickupvillagers.zombie_villager": "Zombie Villager Globe"
 }

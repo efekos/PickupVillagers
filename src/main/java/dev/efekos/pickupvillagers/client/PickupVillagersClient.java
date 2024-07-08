@@ -10,11 +10,16 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.VillagerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.RotationAxis;
+
+import java.util.function.Supplier;
 
 public class PickupVillagersClient implements ClientModInitializer {
 
@@ -22,7 +27,14 @@ public class PickupVillagersClient implements ClientModInitializer {
     public void onInitializeClient() {
 
         BlockRenderLayerMap.INSTANCE.putBlock(PickupVillagersBlocks.VILLAGER, RenderLayer.getCutout());
-        BuiltinItemRendererRegistry.INSTANCE.register(PickupVillagersItems.VILLAGER, (stack, mode, matrices, vertexConsumers, light, overlay) -> {
+        BlockRenderLayerMap.INSTANCE.putBlock(PickupVillagersBlocks.ZOMBIE_VILLAGER, RenderLayer.getCutout());
+        BuiltinItemRendererRegistry.INSTANCE.register(PickupVillagersItems.VILLAGER, getRenderer(PickupVillagersItems.VILLAGERI.getDefaultStack(),() -> new VillagerEntity(EntityType.VILLAGER, MinecraftClient.getInstance().world)));
+        BuiltinItemRendererRegistry.INSTANCE.register(PickupVillagersItems.ZOMBIE_VILLAGER, getRenderer(PickupVillagersItems.ZOMBIE_VILLAGERI.getDefaultStack(),() -> new ZombieVillagerEntity(EntityType.ZOMBIE_VILLAGER, MinecraftClient.getInstance().world)));
+
+    }
+
+    public BuiltinItemRendererRegistry.DynamicItemRenderer getRenderer(ItemStack defaultStack,Supplier<Entity> entitySupplier) {
+        return  (stack, mode, matrices, vertexConsumers, light, overlay) -> {
             ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
             EntityRenderDispatcher dispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
 
@@ -30,13 +42,13 @@ public class PickupVillagersClient implements ClientModInitializer {
             matrices.translate(0.5f, 0.5f, 0.5f);
             matrices.scale(1f, 1f, 1f);
             matrices.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(0));
-            renderer.renderItem(PickupVillagersItems.VILLAGERI.getDefaultStack(), mode, light, overlay, matrices, vertexConsumers, null, 1);
+            renderer.renderItem(defaultStack, mode, light, overlay, matrices, vertexConsumers, null, 1);
             matrices.pop();
 
             if(!stack.getComponents().contains(PickupVillagersComponentTypes.VILLAGER_DATA))return;
             NbtCompound nbt = stack.getComponents().get(PickupVillagersComponentTypes.VILLAGER_DATA).copyNbt();
             if (!nbt.contains("villager", NbtElement.COMPOUND_TYPE)) return;
-            VillagerEntity entity = new VillagerEntity(EntityType.VILLAGER, MinecraftClient.getInstance().world);
+            Entity entity = entitySupplier.get();
             entity.readNbt(nbt.getCompound("villager"));
 
             matrices.push();
@@ -64,8 +76,7 @@ public class PickupVillagersClient implements ClientModInitializer {
             }
             dispatcher.render(entity, 0, 0, 0, 0, 0.5f, matrices, vertexConsumers, light);
             matrices.pop();
-        });
-
+        };
     }
 
 }

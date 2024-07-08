@@ -1,9 +1,11 @@
 package dev.efekos.pickupvillagers.item;
 
 import dev.efekos.pickupvillagers.registry.PickupVillagersComponentTypes;
+import net.fabricmc.fabric.api.util.BooleanFunction;
 import net.minecraft.block.Block;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.type.NbtComponent;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,18 +24,23 @@ import net.minecraft.util.Hand;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class VillagerItem extends BlockItem {
 
-    public VillagerItem(Block block, Settings settings) {
+    private final Function<Entity,Boolean> lambda;
+
+    public VillagerItem(Block block, Settings settings, Function<Entity, Boolean> lambda) {
         super(block, settings);
+        this.lambda = lambda;
     }
 
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         if (!user.isSneaking()) return super.useOnEntity(stack, user, entity, hand);
         if (hand != Hand.MAIN_HAND) return super.useOnEntity(stack, user, entity, hand);
-        if (!(entity instanceof VillagerEntity)) return super.useOnEntity(stack, user, entity, hand);
+        System.out.println(lambda.apply(entity));
+        if (!lambda.apply(entity)) return super.useOnEntity(stack, user, entity, hand);
         if (stack.getComponents().contains(PickupVillagersComponentTypes.VILLAGER_DATA))
             return super.useOnEntity(stack, user, entity, hand);
         boolean isClient = user.getWorld().isClient;

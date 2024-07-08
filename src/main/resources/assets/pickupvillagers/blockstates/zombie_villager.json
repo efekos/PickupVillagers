@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "pickupvillagers:block/zombie_villager"
+    }
+  }
+}

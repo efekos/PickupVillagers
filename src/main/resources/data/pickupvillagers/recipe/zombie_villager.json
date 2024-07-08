@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "A",
+    "B"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:tinted_glass"
+    },
+    "B": {
+      "tag": "minecraft:stone_pressure_plate"
+    }
+  },
+  "result": {
+    "id": "pickupvillagers:zombie_villager"
+  }
+}
